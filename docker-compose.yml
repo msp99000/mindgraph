@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # FastAPI App (Backend)
+  backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - '0.0.0.0:8000:8000'  # Bind to all interfaces
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/slackpoc
+    networks:
+      - app-network
+
+  # React App (Frontend)
+  frontend:
+    build:
+      context: ./my-app
+      dockerfile: Dockerfile
+    ports:
+      - '0.0.0.0:3000:80'  # Bind to all interfaces
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://49.43.100.205:8000  # Replace with your actual public IP
+    networks:
+      - app-network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '0.0.0.0:5433:5432'  # Bind to all interfaces, using 5433 externally
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgdata:
