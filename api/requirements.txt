@@ -1,0 +1,21 @@
+##pip install -r requirements.txt
+chromadb
+langchain-community
+langchain
+langchain-openai
+langchain-core
+jq
+python-dotenv
+llama-index
+rank-bm25
+llama-index-embeddings-langchain 
+sentence-transformers
+langchain-chroma
+lark
+pdfminer
+pdfminer.six
+python-docx
+fastapi[standard]
+psycopg2
+passlib
+bcrypt
