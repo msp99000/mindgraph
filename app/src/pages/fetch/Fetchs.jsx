@@ -9,7 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 function FetchSlack() {
   // var backend_url="http://49.43.100.205:8000"
   // const backend_url = "http://0.0.0.0:8000"
-  const backend_url =  "http://4.186.63.222:8000"
+  const backend_url = "http://4.186.63.222:8000";
 
   // var backend_url = "http://127.0.0.1:8000";
   // const backend_url =  "http://52.168.150.249:8000";
@@ -25,13 +25,17 @@ function FetchSlack() {
   const [slack_file, setSlack_file] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const token = "xoxp-6314615578211-6317235574564-7496265822324-2a37972e284a8379a4fbaae31bf94eff";
+  // const token = "xoxp-6314615578211-6317235574564-7496265822324-2a37972e284a8379a4fbaae31bf94eff";
 
   useEffect(() => {
     const fetchSlackData = async () => {
       const apiUrl = `${backend_url}/api/slack/combined-info`;
       try {
-        const result = await axios.post(apiUrl, { token }, { headers: { "Content-Type": "application/json" } });
+        const result = await axios.post(
+          apiUrl,
+          { token },
+          { headers: { "Content-Type": "application/json" } }
+        );
         setOrganizations([result?.data?.team_info?.team]);
         setChannels(result?.data?.channels_info?.channels);
       } catch (error) {
@@ -44,14 +48,18 @@ function FetchSlack() {
 
   const handleOrgChange = (e) => {
     const selectedOrgId = e.target.value;
-    const selectedOrgName = organizations.find((org) => org.id === selectedOrgId)?.name;
+    const selectedOrgName = organizations.find(
+      (org) => org.id === selectedOrgId
+    )?.name;
     setSelectedOrg({ id: selectedOrgId, name: selectedOrgName });
     setSelectedChannel({ id: "", name: "" });
   };
 
   const handleChannelChange = (e) => {
     const selectedChannelId = e.target.value;
-    const selectedChannelName = channels.find((channel) => channel.id === selectedChannelId)?.name;
+    const selectedChannelName = channels.find(
+      (channel) => channel.id === selectedChannelId
+    )?.name;
     setSelectedChannel({ id: selectedChannelId, name: selectedChannelName });
   };
 
@@ -78,7 +86,10 @@ function FetchSlack() {
     try {
       setLoading(true);
       setSuccess(false);
-      const response = await axios.post(`${backend_url}/api/slack/embedding-data`, payload);
+      const response = await axios.post(
+        `${backend_url}/api/slack/embedding-data`,
+        payload
+      );
       setSlack_file(response.data.success);
       if (response.data.success) {
         setSuccess(true);
@@ -100,19 +111,28 @@ function FetchSlack() {
   return (
     <div className="container my-5">
       {loading ? (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: "100vh" }}
+        >
           <Spinner animation="border" />
         </div>
       ) : (
         <>
           <Card className="shadow-sm">
             <Card.Body>
-              <Card.Title className="text-center mb-4">Fetch Data from Slack</Card.Title>
+              <Card.Title className="text-center mb-4">
+                Fetch Data from Slack
+              </Card.Title>
 
               {/* Organization Selection */}
               <Form.Group className="mb-3">
                 <Form.Label>Organization Name:</Form.Label>
-                <Form.Select value={selectedOrg.id} onChange={handleOrgChange} className="form-control">
+                <Form.Select
+                  value={selectedOrg.id}
+                  onChange={handleOrgChange}
+                  className="form-control"
+                >
                   <option value="">Select Organization</option>
                   {organizations.map((org) => (
                     <option key={org.id} value={org.id}>
@@ -125,7 +145,11 @@ function FetchSlack() {
               {/* Channel Selection */}
               <Form.Group className="mb-3">
                 <Form.Label>Channel Name:</Form.Label>
-                <Form.Select value={selectedChannel.id} onChange={handleChannelChange} className="form-control">
+                <Form.Select
+                  value={selectedChannel.id}
+                  onChange={handleChannelChange}
+                  className="form-control"
+                >
                   <option value="">Select Channel</option>
                   {channels &&
                     channels.map((channel) => {
@@ -144,13 +168,21 @@ function FetchSlack() {
               {/* Oldest Unix Time Selection */}
               <Form.Group className="mb-3">
                 <Form.Label>Oldest Unix Time:</Form.Label>
-                <Form.Control type="datetime-local" value={oldestUnix} onChange={(e) => setOldestUnix(e.target.value)} />
+                <Form.Control
+                  type="datetime-local"
+                  value={oldestUnix}
+                  onChange={(e) => setOldestUnix(e.target.value)}
+                />
               </Form.Group>
 
               {/* Latest Unix Time Selection */}
               <Form.Group className="mb-4">
                 <Form.Label>Latest Unix Time:</Form.Label>
-                <Form.Control type="datetime-local" value={latestUnix} onChange={(e) => setLatestUnix(e.target.value)} />
+                <Form.Control
+                  type="datetime-local"
+                  value={latestUnix}
+                  onChange={(e) => setLatestUnix(e.target.value)}
+                />
               </Form.Group>
 
               {/* Submit Button */}
