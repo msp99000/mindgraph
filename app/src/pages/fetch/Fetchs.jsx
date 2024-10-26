@@ -25,8 +25,6 @@ function FetchSlack() {
   const [slack_file, setSlack_file] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // const token = "xoxp-6314615578211-6317235574564-7496265822324-2a37972e284a8379a4fbaae31bf94eff";
-
   useEffect(() => {
     const fetchSlackData = async () => {
       const apiUrl = `${backend_url}/api/slack/combined-info`;
