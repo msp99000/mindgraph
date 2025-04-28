@@ -26,7 +26,7 @@ function FetchSlack() {
   const [success, setSuccess] = useState(false);
 
   const token =
-    "xoxp-6314615578211-6317235574564-7496265822324-2a37972e284a8379a4fbaae31bf94eff";
+    "xoxp-xxxxx";
 
   useEffect(() => {
     const fetchSlackData = async () => {
